@@ -39,6 +39,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "install": "^0.13.0",
     "npm": "^10.8.2",
+    "terser": "^5.42.0",
     "vite": "^5.3.4",
     "vitest": "^2.0.5"
   }
