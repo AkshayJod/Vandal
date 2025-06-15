@@ -48,13 +48,15 @@ const Signup = () => {
 
   return (
     <div className="login-wrapper">
-      <div className="login-logo-container">
-        <VandalHubLogo size={64} className="logo-login" />
-      </div>
+      <div className="login-content">
+        <div className="login-header">
+          <div className="login-logo-container">
+            <VandalHubLogo size={64} showText={false} />
+          </div>
 
-      <div className="login-box-wrapper">
-        <div className="login-heading">
-          <h1>Sign Up</h1>
+          <div className="login-heading">
+            <h2 className="signin-title">Create your account</h2>
+          </div>
         </div>
 
         <form onSubmit={handleSignup} className="login-box">
@@ -111,7 +113,7 @@ const Signup = () => {
 
         <div className="pass-box">
           <p>
-            Already have an account? <Link to="/auth">Login</Link>
+            Already have an account? <Link to="/auth">Sign in</Link>
           </p>
         </div>
       </div>
