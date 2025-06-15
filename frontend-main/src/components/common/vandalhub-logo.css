@@ -1,0 +1,74 @@
+/* VandalHub Logo Styles */
+.vandalhub-logo {
+  /* No animations */
+}
+
+.vandalhub-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vandalhub-brand .brand-text {
+  font-weight: 600;
+  color: currentColor;
+  letter-spacing: -0.025em;
+}
+
+/* Navbar specific styles */
+.navbar-brand .vandalhub-logo {
+  color: #f0f6fc;
+}
+
+/* Footer specific styles */
+.footer-logo .vandalhub-logo {
+  color: #8b949e;
+}
+
+/* Auth page specific styles */
+.login-logo-container .vandalhub-brand {
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.login-logo-container .vandalhub-logo {
+  color: #f0f6fc;
+}
+
+.login-logo-container .brand-text {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #58a6ff 0%, #3fb950 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vandalhub-brand .brand-text {
+    display: none;
+  }
+  
+  .navbar-brand .vandalhub-brand .brand-text {
+    display: inline;
+    font-size: 14px;
+  }
+}
+
+
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: light) {
+  .vandalhub-logo {
+    color: #24292f;
+  }
+  
+  .navbar-brand .vandalhub-logo {
+    color: #24292f;
+  }
+  
+  .footer-logo .vandalhub-logo {
+    color: #656d76;
+  }
+}

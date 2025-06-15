@@ -1,0 +1,128 @@
+{
+  "name": "vandalhub-platform",
+  "version": "1.0.0",
+  "description": "🚀 VandalHub - A modern GitHub-like platform built with React, Node.js, and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend-main && npm run dev",
+    "dev:frontend": "cd frontend-main && npm run dev",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend-main && npm start",
+    "start:frontend": "cd frontend-main && npm run build && npm run preview",
+    "build": "npm run build:frontend",
+    "build:frontend": "cd frontend-main && npm run build",
+    "test": "concurrently \"npm run test:backend\" \"npm run test:frontend\"",
+    "test:backend": "cd backend-main && npm test",
+    "test:frontend": "cd frontend-main && npm test",
+    "test:e2e": "cd frontend-main && npm run test:e2e",
+    "lint": "concurrently \"npm run lint:backend\" \"npm run lint:frontend\"",
+    "lint:backend": "cd backend-main && npm run lint",
+    "lint:frontend": "cd frontend-main && npm run lint",
+    "lint:fix": "concurrently \"npm run lint:fix:backend\" \"npm run lint:fix:frontend\"",
+    "lint:fix:backend": "cd backend-main && npm run lint:fix",
+    "lint:fix:frontend": "cd frontend-main && npm run lint:fix",
+    "install:all": "npm install && npm run install:backend && npm run install:frontend",
+    "install:backend": "cd backend-main && npm install",
+    "install:frontend": "cd frontend-main && npm install",
+    "clean": "npm run clean:backend && npm run clean:frontend",
+    "clean:backend": "cd backend-main && rm -rf node_modules package-lock.json",
+    "clean:frontend": "cd frontend-main && rm -rf node_modules package-lock.json dist",
+    "setup": "npm run install:all && npm run setup:env",
+    "setup:env": "cp backend-main/.env.example backend-main/.env && cp frontend-main/.env.example frontend-main/.env",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "deploy:staging": "npm run build && npm run deploy:staging:backend && npm run deploy:staging:frontend",
+    "deploy:production": "npm run build && npm run deploy:production:backend && npm run deploy:production:frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vandalhub/vandalhub-platform.git"
+  },
+  "keywords": [
+    "github-clone",
+    "repository-management",
+    "issue-tracking",
+    "collaboration",
+    "react",
+    "nodejs",
+    "mongodb",
+    "express",
+    "javascript",
+    "web-development",
+    "full-stack",
+    "developer-tools",
+    "version-control",
+    "project-management"
+  ],
+  "author": {
+    "name": "VandalHub Team",
+    "email": "team@vandalhub.com",
+    "url": "https://vandalhub.com"
+  },
+  "contributors": [
+    {
+      "name": "Lead Developer",
+      "email": "dev@vandalhub.com",
+      "role": "Full-stack Developer"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vandalhub/vandalhub-platform/issues"
+  },
+  "homepage": "https://vandalhub.com",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/vandalhub"
+  },
+  "config": {
+    "mongodbMemoryServer": {
+      "version": "5.0.0"
+    }
+  },
+  "workspaces": [
+    "frontend-main",
+    "backend-main"
+  ]
+}

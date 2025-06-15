@@ -26,9 +26,11 @@ async function signup(req, res) {
     const db = client.db("githubclone");
     const usersCollection = db.collection("users");
 
-    const user = await usersCollection.findOne({ username });
-    if (user) {
-      return res.status(400).json({ message: "User already exists!" });
+    const existingUser = await usersCollection.findOne({
+      $or: [{ username }, { email }]
+    });
+    if (existingUser) {
+      return res.status(400).json({ message: "User with this username or email already exists!" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -41,16 +43,26 @@ async function signup(req, res) {
       repositories: [],
       followedUsers: [],
       starRepos: [],
+      // Profile fields
+      name: username, // Default name to username
+      bio: "Building amazing projects on VandalHub 🚀",
+      avatar: null, // Will use default avatar on frontend
+      location: "",
+      website: "",
+      company: "",
+      twitter: "",
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
     const result = await usersCollection.insertOne(newUser);
 
     const token = jwt.sign(
-      { id: result.insertId },
+      { id: result.insertedId },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1h" }
     );
-    res.json({ token, userId: result.insertId });
+    res.json({ token, userId: result.insertedId });
   } catch (err) {
     console.error("Error during signup : ", err.message);
     res.status(500).send("Server error");
@@ -114,7 +126,9 @@ async function getUserProfile(req, res) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    res.send(user);
+    // Remove password from response
+    const { password, ...userWithoutPassword } = user;
+    res.send(userWithoutPassword);
   } catch (err) {
     console.error("Error during fetching : ", err.message);
     res.status(500).send("Server error!");
@@ -123,19 +137,42 @@ async function getUserProfile(req, res) {
 
 async function updateUserProfile(req, res) {
   const currentID = req.params.id;
-  const { email, password } = req.body;
+  const { email, password, name, bio, avatar, location, website, company, twitter } = req.body;
 
   try {
+    console.log("Update profile request:", { currentID, body: req.body });
+
+    // Validate ObjectId
+    if (!ObjectId.isValid(currentID)) {
+      return res.status(400).json({ message: "Invalid user ID format!" });
+    }
+
     await connectClient();
     const db = client.db("githubclone");
     const usersCollection = db.collection("users");
 
-    let updateFields = { email };
+    let updateFields = { updatedAt: new Date() };
+
+    // Update email if provided
+    if (email) updateFields.email = email;
+
+    // Update password if provided
     if (password) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       updateFields.password = hashedPassword;
     }
+
+    // Update profile fields if provided
+    if (name !== undefined) updateFields.name = name;
+    if (bio !== undefined) updateFields.bio = bio;
+    if (avatar !== undefined) updateFields.avatar = avatar;
+    if (location !== undefined) updateFields.location = location;
+    if (website !== undefined) updateFields.website = website;
+    if (company !== undefined) updateFields.company = company;
+    if (twitter !== undefined) updateFields.twitter = twitter;
+
+    console.log("Update fields:", updateFields);
 
     const result = await usersCollection.findOneAndUpdate(
       {
@@ -144,11 +181,16 @@ async function updateUserProfile(req, res) {
       { $set: updateFields },
       { returnDocument: "after" }
     );
-    if (!result.value) {
+
+    console.log("Update result:", result);
+
+    if (!result) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    res.send(result.value);
+    // Remove password from response
+    const { password: _, ...userWithoutPassword } = result;
+    res.send(userWithoutPassword);
   } catch (err) {
     console.error("Error during updating : ", err.message);
     res.status(500).send("Server error!");

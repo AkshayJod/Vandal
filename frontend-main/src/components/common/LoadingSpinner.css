@@ -1,0 +1,98 @@
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.loading-spinner.small {
+  padding: 10px;
+  gap: 8px;
+}
+
+.loading-spinner.large {
+  padding: 40px;
+  gap: 16px;
+}
+
+.spinner {
+  display: inline-block;
+}
+
+.loading-spinner.small .spinner {
+  width: 20px;
+  height: 20px;
+}
+
+.loading-spinner.medium .spinner {
+  width: 32px;
+  height: 32px;
+}
+
+.loading-spinner.large .spinner {
+  width: 48px;
+  height: 48px;
+}
+
+.circular {
+  animation: rotate 2s linear infinite;
+  width: 100%;
+  height: 100%;
+}
+
+.path {
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+  color: #58a6ff;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+.loading-text {
+  color: #8b949e;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.loading-spinner.small .loading-text {
+  font-size: 12px;
+}
+
+.loading-spinner.large .loading-text {
+  font-size: 16px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .circular {
+    animation: none;
+  }
+  
+  .path {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}

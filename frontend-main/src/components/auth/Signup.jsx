@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../authContext";
-
-import { PageHeader } from "@primer/react/drafts";
-import { Box, Button } from "@primer/react";
 import "./auth.css";
-
-import logo from "../../assets/github-mark-white.svg";
+import VandalHubLogo from "../common/VandalHubLogo";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
@@ -20,13 +16,19 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    console.log("Signup attempt with:", { username, email, password: "***" });
+
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:3002/signup", {
+      console.log("Sending request to:", "http://localhost:3000/signup");
+
+      const res = await axios.post("http://localhost:3000/signup", {
         email: email,
         password: password,
         username: username,
       });
+
+      console.log("Signup response:", res.data);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.userId);
@@ -34,10 +36,12 @@ const Signup = () => {
       setCurrentUser(res.data.userId);
       setLoading(false);
 
+      console.log("Signup successful, redirecting...");
       window.location.href = "/";
     } catch (err) {
-      console.error(err);
-      alert("Signup Failed!");
+      console.error("Signup error:", err);
+      console.error("Error response:", err.response?.data);
+      alert(`Signup Failed! ${err.response?.data?.message || err.message}`);
       setLoading(false);
     }
   };
@@ -45,21 +49,15 @@ const Signup = () => {
   return (
     <div className="login-wrapper">
       <div className="login-logo-container">
-        <img className="logo-login" src={logo} alt="Logo" />
+        <VandalHubLogo size={64} className="logo-login" />
       </div>
 
       <div className="login-box-wrapper">
         <div className="login-heading">
-          <Box sx={{ padding: 1 }}>
-            <PageHeader>
-              <PageHeader.TitleArea variant="large">
-                <PageHeader.Title>Sign Up</PageHeader.Title>
-              </PageHeader.TitleArea>
-            </PageHeader>
-          </Box>
+          <h1>Sign Up</h1>
         </div>
 
-        <div className="login-box">
+        <form onSubmit={handleSignup} className="login-box">
           <div>
             <label className="label">Username</label>
             <input
@@ -70,6 +68,7 @@ const Signup = () => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
           </div>
 
@@ -83,6 +82,7 @@ const Signup = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -96,18 +96,18 @@ const Signup = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
-          <Button
-            variant="primary"
-            className="login-btn"
+          <button
+            type="submit"
+            className="submit-btn"
             disabled={loading}
-            onClick={handleSignup}
           >
             {loading ? "Loading..." : "Signup"}
-          </Button>
-        </div>
+          </button>
+        </form>
 
         <div className="pass-box">
           <p>

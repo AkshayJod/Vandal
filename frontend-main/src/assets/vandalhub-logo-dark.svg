@@ -1,0 +1,30 @@
+<svg width="98" height="96" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98 96">
+  <defs>
+    <linearGradient id="vandalGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3fb950;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main V Shape -->
+  <path d="M49 10 L25 50 L35 50 L49 25 L63 50 L73 50 L49 10 Z" fill="url(#vandalGradientDark)"/>
+  
+  <!-- Code brackets around V -->
+  <path d="M15 20 L10 25 L10 45 L15 50 M83 20 L88 25 L88 45 L83 50" 
+        stroke="#0d1117" stroke-width="3" fill="none" stroke-linecap="round"/>
+  
+  <!-- Hub connection dots -->
+  <circle cx="20" cy="70" r="4" fill="#0d1117"/>
+  <circle cx="35" cy="75" r="3" fill="#58a6ff"/>
+  <circle cx="49" cy="78" r="4" fill="#0d1117"/>
+  <circle cx="63" cy="75" r="3" fill="#3fb950"/>
+  <circle cx="78" cy="70" r="4" fill="#0d1117"/>
+  
+  <!-- Connection lines -->
+  <path d="M20 70 L35 75 L49 78 L63 75 L78 70" 
+        stroke="#0d1117" stroke-width="2" fill="none" opacity="0.6"/>
+  
+  <!-- Binary code pattern (subtle background) -->
+  <text x="15" y="90" font-family="monospace" font-size="8" fill="#0d1117" opacity="0.3">1010</text>
+  <text x="65" y="90" font-family="monospace" font-size="8" fill="#0d1117" opacity="0.3">1101</text>
+</svg>
